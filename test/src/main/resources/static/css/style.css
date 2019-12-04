@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+body {
+	background-color: #fff;
+}
+
+:focus {
+	outline: none;
+}
+
+.container {
+	width: 250px;
+	position: relative;
+	margin: auto;
+}
+
+.container form {
+	width: 100%;
+	background: aliceblue;
+}
+
+#innerbox {
+	width: 100%;
+}
+
+#innerbox input {
+	border: 0;
+	text-align: right;
+	border-bottom: 1px solid #ccc;
+}

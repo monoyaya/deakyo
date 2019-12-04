@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>한글 금액 변환기</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$(".plus").click(function() {
+			let v = $(this).val()
+			let money = $("#money").val().replace(",", "")
+			var rt = eval(money + "+" + v)
+			
+			$("#money").val(rt)
+			
+			return false;
+		});
+		
+		$("#submit").click(function() {
+			$.ajax({
+				url: "/input",
+				method: "POST",
+				data: $("#input").serialize(),
+				success: function(data) {
+					alert(data)
+				}, error: function(data) {
+					alert(data)
+				}
+			}).done(function(data) {
+				$("#money").val("")
+			})
+			
+			return false;
+		});
+	})
+</script>
+</head>
+<body>
+<div class="container">
+	<form id="input">
+		<div id="innerbox">
+			<label for="money">금액 : </label>
+			<input type="text" id="money" name="money">원
+		</div>
+		<div id="plus">
+			<button class="plus" value="10000">+만</button>
+			<button class="plus" value="1000000">+백만</button>
+			<button class="plus" value="1000000000">+십억</button>
+			<button class="plus" value="1000000000000">+조</button>
+		</div>
+		<div>
+			<button id="submit">이체하기</button>
+		</div>
+	</form>
+</div>
+</body>
+</html>
