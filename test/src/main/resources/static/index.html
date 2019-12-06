@@ -23,13 +23,25 @@
 			utter.voice = vos[0];
 			synth.speak(utter);
 		}
-
+		
+		$("#money").focus(function() {
+			var v = $(this).val();
+			
+			$(this).val(v.replace(/,/g, ''));
+		})
+		
+		$("#money").blur(function() {
+			var v = $(this).val().replace(/,/g, '');
+			
+			$(this).val(new Number(v).toLocaleString('ko-KR'));
+		})
+		
 		$(".plus").click(function() {
 			let v = $(this).val()
-			let money = $("#money").val().replace(",", "")
+			let money = $("#money").val().replace(/,/g, '');
 			var rt = eval(money + "+" + v)
 			
-			$("#money").val(rt)
+			$("#money").val(rt.toLocaleString())
 			
 			return false;
 		});
@@ -59,7 +71,7 @@
 	<form id="input">
 		<div id="innerbox">
 			<label for="money">금액 : </label>
-			<input type="text" id="money" name="money">원
+			<input type="text" id="money" name="money" pattern="[0-9]">원
 		</div>
 		<div id="plus">
 			<button class="plus" value="10000">+만</button>
