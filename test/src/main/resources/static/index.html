@@ -4,9 +4,26 @@
 <meta charset="UTF-8">
 <title>한글 금액 변환기</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+		var agent = navigator.userAgent.toLowerCase();
+		var synth = window.speechSynthesis;
+		
+		function playVoice(txt) {
+			if (typeof SpeechSynthesisUtterance === 'undefined' || typeof speechSynthesis === 'undefined') {
+		    	alert('음성 합성을 지원하지 않는 브라우저 입니다.');
+		    	return;
+		  	}
+			
+			var vos = [];
+			vos = synth.getVoices().filter(function(v) {return v.lang.includes('ko')});
+			var voList = "";
+			var utter = new SpeechSynthesisUtterance(txt);
+			utter.voice = vos[0];
+			synth.speak(utter);
+		}
+
 		$(".plus").click(function() {
 			let v = $(this).val()
 			let money = $("#money").val().replace(",", "")
@@ -23,11 +40,12 @@
 				method: "POST",
 				data: $("#input").serialize(),
 				success: function(data) {
+					playVoice(data);
 					alert(data)
 				}, error: function(data) {
 					alert(data)
 				}
-			}).done(function(data) {
+			}).done(function() {
 				$("#money").val("")
 			})
 			
@@ -49,7 +67,7 @@
 			<button class="plus" value="1000000000">+십억</button>
 			<button class="plus" value="1000000000000">+조</button>
 		</div>
-		<div>
+		<div id="lastbox">
 			<button id="submit">이체하기</button>
 		</div>
 	</form>
